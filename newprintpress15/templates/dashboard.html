@@ -1,0 +1,216 @@
+{% extends 'base.html' %}
+{%block content %}
+{% include 'summary.html' %}
+{% load humanize %}
+{% load widget_tweaks %}
+<div class="card  mx-3 my-3">
+    <div class="card-body">
+
+        {{suppliername}}
+        {{document}}
+        <div class="message">
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{message.tags }} alert-dismissible fade show" role="alert">
+                <strong>{{message.tags}}!</strong> {% if message.tags %}{{ message}}"{% endif %}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endfor %}
+
+            {% endif %}
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="table table-hover table-responsive-sm">
+                    <div class="row">
+                        <div class="col">
+                            <h3 class="card-title">Available Serivce Provider</h3>
+
+                        </div>
+                        <div class="col">
+                            <h3 class="float-right mr-2"><a href="{% url 'add-supplier'%}" style="color:#DC7633"><i
+                                    class="fas fa-user-plus "></i></a></h3>
+
+                        </div>
+                    </div>
+                    <hr>
+                    <table class="table table-responsive-sm">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Company name</th>
+                            <th scope="col">Email id</th>
+                            <th scope="col">Mobile No</th>
+                            <th scope="col"> View</th>
+                            <th scope="col"> Update</th>
+                            <th scope="col"> Delete</th>
+
+
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        {% for i in supplier_table %}
+                        <tr>
+                            <th scope="row">{{forloop.counter}}</th>
+                            <td>{{i.Name}}</td>
+                            <td>{{i.Company}}</td>
+                            <td>{{i.Email}}</td>
+                            <td>{{i.Mobile}}</td>
+                            <td>
+                                <a href="{% url 'details-supplier' i.id%}" class="btn btn-info mr-2">View</a>
+                            </td>
+                            <td>
+                                <a href="{% url 'update-supplier' i.id %}" class="btn btn-warning mr-2">Update</a>
+                            </td>
+                            <td>
+                                <a href="{% url 'notification' i.id%}" class="btn btn-danger mr-2">Delete</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+ <!-- order table -->
+        <div class="card  mx-3 my-3">
+            <div class="card-body">
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="table table-hover table-responsive">
+                            <div class="row">
+                                <div class="col">
+                                    <h3 class="card-title">Order Details</h3>
+
+                                </div>
+                                <div class="col">
+                                    <h3 class="float-right"><a href="{% url 'Order-place'%}" style="color:#DC7633"><i
+                                            class="fas fa-plus-circle"></i></a></h3>
+
+                                </div>
+                            </div>
+                            <hr>
+
+
+                            <table class="table">
+                                <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Service Provider</th>
+                                    <th scope="col">Order</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Document</th>
+                                    <th scope="col"> Size</th>
+                                    <th scope="col"> GSM</th>
+
+                                    <th scope="col"> Quantity</th>
+                                    <th scope="col"> Amount</th>
+                                    <th scope="col">Delete</th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                {% for i in order_table %}
+                                <tr>
+                                    <th scope="row">{{forloop.counter}}</th>
+                                    <td>{{i.supplierName}}</td>
+                                    <td>{{i.OrderName}}</td>
+                                    <td>{{i.Date}}</td>
+                                    <td><a style="color:black" href="/media/{{i.document}}">{{i.document}}<a></td>
+                                    <td>{{i.Size}}</td>
+                                    <td>{{i.gsm}}</td>
+                                    
+                                    <td>{{i.Quantity}}</td>
+                                    <td><span class=" float-right">{{i.Amount|intcomma}}</span></td>
+                                                                  <td>
+                                    <a href="{% url 'Ordernotification' i.id %}" class="btn btn-danger mr-2" >Delete</a>
+                                    </td> 
+
+
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- end of order table -->
+
+
+          <!--payment table-->
+
+        <div class="card  mx-3 my-3">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="table table-hover table-responsive">
+                            <div class="row">
+                                <div class="col">
+                                    <h3 class="card-title">Payment Details</h3>
+
+                                </div>
+                                <div class="col">
+                                    <h3 class="float-right"><a href="{% url 'payment-form'%}" style="color:#DC7633"><i
+                                            class="fas fa-plus-circle"></i></a></h3>
+
+                                </div>
+                            </div>
+                            <hr>
+
+
+                            <table class="table">
+                                <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Supplier</th>
+                                    <th scope="col">Payment Date</th>
+                                    <th scope="col">Paid By</th>
+
+                                    <th scope="col"> Amount</th>
+                                    <th scope="col"> Comment</th>
+                                    <th scope="col"> Cancel</th>
+
+
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                {% for i in payment_table %}
+                                <tr>
+                                    <th scope="row">{{forloop.counter}}</th>
+                                    <td>{{i.supplierName}}</td>
+                                    <td>{{i.Date}}</td>
+                                    <td>{{i.paidIn}}</td>
+
+                                    <td>{{i.credit|intcomma}}</td>
+                                    <td>{{i.Comment}}</td>
+                                                                   <td>
+                                    <a href="{% url 'paymentnotification' i.id %}" class="btn btn-danger mr-2" >Delete</a>
+                                    </td> 
+
+
+                                </tr>
+                             
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--end of payment table -->
+
+{% endblock %}

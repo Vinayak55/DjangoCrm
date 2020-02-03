@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load humanize %}
+{% load widget_tweaks %}
+<br>
+<!--payment filters-->
+<div class="row">
+    <div class="col">
+        <div class="card card-body mr-3 ml-3">
+
+            <form method="get">
+                <div class="well">
+                    <h4 style="margin-top: 0">Payment Filter</h4>
+                    <hr>
+
+                    <div class="row">
+                        <div class="form-group col-sm-2 col-md-2">
+                            <h6 class="mb-2">Supplier Name :</h6>
+                            {% render_field filter2.form.supplierName class="form-control" %}
+                        </div>
+                        <div class="form-group col-sm-2 col-md-2">
+                            <h6 class="mb-2">Paid By :</h6>
+                            {% render_field filter2.form.paidIn class="form-control"  %}
+                        </div>
+                        <div class="form-group col-sm-2 col-md-2">
+                            <h6 class="mb-2">Date :</h6>
+                            {% render_field filter2.form.Date class="form-control" type="date" %}
+                        </div>
+                        <div class="form-group col-sm-2 col-md-2">
+                            <h6 class="mb-2">To:</h6>
+                            {% render_field filter2.form.start_date class="form-control" type="date" %}
+                        </div>
+                        <div class="form-group col-sm-2 col-md-2">
+                            <h6 class="mb-2">From:</h6>
+                            {% render_field filter2.form.end_date class="form-control" type="date" %}
+                        </div>
+                        <div class="form-group col-sm-2 col-md-2">
+                            <h6 class="mb-2">Amount :</h6>
+                            {% render_field filter2.form.credit class="form-control" %}
+                        </div>
+                        <div class="form-group col-sm-12 float-right ">
+                            <button type="submit" class="btn btn-primary float-right"><i class="fas fa-search"></i>
+                                Search
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+
+
+        <!-- end of payment filters       -->
+        <!--payment table-->
+
+        <div class="card  mx-3 my-3">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="table table-hover table-responsive">
+                            <div class="row">
+                                <div class="col">
+                                    <h3 class="card-title">Payment Details</h3>
+
+                                </div>
+                                <div class="col">
+                                    <h3 class="float-right"><a href="{% url 'payment-form'%}" style="color:#DC7633"><i
+                                            class="fas fa-plus-circle"></i></a></h3>
+
+                                </div>
+                            </div>
+                            <hr>
+
+
+                            <table class="table">
+                                <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Service provider</th>
+                                    <th scope="col">Payment Date</th>
+                                    <th scope="col">Paid By</th>
+
+                                    <th scope="col"> Amount</th>
+                                    <th scope="col"> Comment</th>
+                                    <th scope="col"> Cancel</th>
+
+
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                {% for i in filter2.qs %}
+                                <tr>
+                                    <th scope="row">{{forloop.counter}}</th>
+                                    <td>{{i.supplierName}}</td>
+                                    <td>{{i.Date}}</td>
+                                    <td>{{i.paidIn}}</td>
+
+                                    <td>{{i.credit|intcomma}}</td>
+                                    <td>{{i.Comment}}</td>
+                                    <td>
+                                    <a href="{% url 'delete-payment' i.id %}" class="btn btn-danger mr-2" >Delete</a>
+                                    </td> 
+
+
+                                </tr>
+              
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--end of payment table -->
+
+{% endblock %}
